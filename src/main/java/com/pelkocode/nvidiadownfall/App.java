@@ -91,9 +91,39 @@ public final class App {
             highPrice4090 = Integer.parseInt(prices4090.get(prices4090.size()-1).replace(",", ""));
             System.out.println("4090 AVERAGE LOW HIGH ---- " + averagePrice4090 + " " + lowPrice4090 + " " + highPrice4090);
 
+
+
+            try { 
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                 } catch (Exception e) {
+                    System.out.println(e);
+              }
+    
+    
+                String url = "jdbc:mysql://localhost:3306/webscrapetester"; 
+                Connection conn = DriverManager.getConnection(url,"root",""); 
+                Statement st = conn.createStatement(); 
+                
+                st.executeUpdate("INSERT INTO prices (GPU_ID, High, Low, Average) " + 
+                    "VALUES (1, " + highPrice4070 + ", " +  lowPrice4070 + ", " + averagePrice4070 + ")");
+                st.executeUpdate("INSERT INTO prices (GPU_ID, High, Low, Average)" + 
+                    "VALUES (2, " + highPrice4080 + ", " +  lowPrice4080 + ", " + averagePrice4080 + ")");
+                st.executeUpdate("INSERT INTO prices (GPU_ID, High, Low, Average)" + 
+                    "VALUES (3, " + highPrice4090 + ", " +  lowPrice4090 + ", " + averagePrice4090 + ")");
+    
+                conn.close(); 
+            } catch (Exception e) { 
+                System.err.println("Got an MYSQL exception! "); 
+                System.err.println(e.getMessage()); 
+            }
+
+
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 
 
         //INSERT DATA INTO THE DATABASE
@@ -121,8 +151,6 @@ public final class App {
         //     System.err.println("Got an exception! "); 
         //     System.err.println(e.getMessage()); 
         // } 
-
-
 
 		System.out.println("done");
     }
